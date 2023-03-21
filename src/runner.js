@@ -2,9 +2,9 @@
 
 import google from 'googlethis';
 
-import {addTitleData, getTitleData, getAllTitles, saveDB} from './db.js';
+import {addTitleData, getSingleTitleData, getAllTitles, saveDB} from './db.js';
 
-import { titles } from '../data/3-19-2023.js';
+import { titles } from '../data/3-19-2023.js'; // replace with your file name
 
 const options = {
     page: 0,
@@ -16,14 +16,30 @@ const options = {
     }
 }
 
-const enrichedData = await Promise.all(titles.map(async title => {
-    console.log(title)
-    const response = await google.search(title, options);
-    return {
-        title: title,
-        data: response.knowledge_panel
+// async sleep
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const existingData = getAllTitles()
+let filteredTitles = titles.filter(title => !existingData[title])
+
+if(!filteredTitles?.length){
+    console.log('No new titles found.')
+}
+
+const enrichedData = await Promise.all(filteredTitles.map(async title => {
+
+    try {
+        await sleep(1000)
+        const response = await google.search(title, options);
+        console.log('got results for: ' + title)
+        // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
+        return {
+            title: title,
+            data: response.knowledge_panel
+        }
+    } catch (e) {
+        console.error(e)
     }
-    // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
 }))
 
 addTitleData(enrichedData, false)

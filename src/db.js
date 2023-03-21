@@ -1,16 +1,16 @@
 //@ts-check
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
 
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
+import assert from 'node:assert'
 
 async function initializeDB (){
     const FILENAME = './data/db.json'
 
     // File path
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    const file = join(__dirname, FILENAME)
+    const dir = process.cwd()
+    const file = join(dir, FILENAME)
 
     // Configure lowdb to write to JSONFile
     const adapter = new JSONFile(file)
@@ -50,13 +50,15 @@ function addTitleData(titleData, override = false){
     })
 }
 
-function getTitleData(title){
+function getSingleTitleData(title){
+    assert(title)
     return db.data.titles[title]
 }
 function getAllTitles(){
     return db.data.titles
 }
 function removeTitles(titles){
+    assert(titles)
     titles.forEach(title => {
         if(db.data.titles[title]){
             delete db.data.titles[title]
@@ -69,7 +71,7 @@ async function saveDB(){
 
 export {
     addTitleData,
-    getTitleData,
+    getSingleTitleData,
     getAllTitles,
     removeTitles,
     saveDB

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "runner.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node ./src/runner.js"
+  },
   "author": "cktang88",
   "license": "MIT",
   "dependencies": {

@@ -2,9 +2,11 @@
 
 import google from 'googlethis';
 
-import {addTitleData, getSingleTitleData, getAllTitles, saveDB} from './db.js';
+import { addTitleData, getSingleTitleData, getAllTitles, saveDB } from './db.js';
 
 import { titles } from '../data/3-19-2023.js'; // replace with your file name
+// import { titles } from '../data/override.js';
+const OVERRIDE = false
 
 const options = {
     page: 0,
@@ -20,9 +22,9 @@ const options = {
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const existingData = getAllTitles()
-let filteredTitles = titles.filter(title => !existingData[title])
+let filteredTitles = OVERRIDE ? titles : titles.filter(title => !existingData[title])
 
-if(!filteredTitles?.length){
+if (!filteredTitles?.length) {
     console.log('No new titles found.')
 }
 
@@ -30,7 +32,17 @@ const enrichedData = await Promise.all(filteredTitles.map(async title => {
 
     try {
         await sleep(1000)
-        const response = await google.search(title, options);
+        let QUERY = title + ' show' // need "some prompt engineering" to disambiguate for some titles
+        let response = await google.search(QUERY, options);
+        if (!response.knowledge_panel?.ratings?.length) {
+            // try 2
+            QUERY = title + ' movie'
+            response = await google.search(QUERY, options)
+        }
+        if (!response.knowledge_panel?.ratings?.length) {
+            QUERY = title + ' series'
+            response = await google.search(QUERY, options)
+        }
         console.log('got results for: ' + title)
         // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
         return {
@@ -41,7 +53,7 @@ const enrichedData = await Promise.all(filteredTitles.map(async title => {
         console.error(e)
     }
 }))
-
-addTitleData(enrichedData, false)
+console.log(enrichedData)
+addTitleData(enrichedData, OVERRIDE)
 await saveDB()
 

@@ -25,27 +25,34 @@ async function initializeDB (){
 
 const db = await initializeDB()
 
-function addTitles(titles) {
+function addTitleData(titleData, override = false){
     /*
-    Adds titles to db if they don't exist
+    Enriches titles with data from the internet
+    
+    format: [
+        {
+            title: "title",
+            data: {...}
+        }
+    ]
     */
-    titles.forEach(title => {
-        if(!db.data.titles[title]){
-            db.data.titles[title] = {
-                data: {},
-                lastUpdated: Date.now()
-            }
+    titleData.forEach(({title, data}) => {
+        if(!override && db.data.titles[title]) {
+            console.log('Title already exists, skipping: ' + title)
+            return
+        }
+
+        db.data.titles[title] = {
+            data: data || null,
+            lastUpdated: Date.now()
         }
     })
-    db.data.titles = {
-
-    } 
 }
 
 function getTitleData(title){
     return db.data.titles[title]
 }
-function getTitles(){
+function getAllTitles(){
     return db.data.titles
 }
 function removeTitles(titles){
@@ -59,10 +66,10 @@ async function saveDB(){
     await db.write()
 }
 
-export default {
-    addTitles,
+export {
+    addTitleData,
     getTitleData,
-    getTitles,
+    getAllTitles,
     removeTitles,
     saveDB
 }

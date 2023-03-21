@@ -1,4 +1,10 @@
+//@ts-check
+
 import google from 'googlethis';
+
+import {addTitleData, getTitleData, getAllTitles, removeTitles} from './db.js';
+
+import { titles } from '../data/3-19-2023.js';
 
 const options = {
     page: 0,
@@ -9,6 +15,8 @@ const options = {
         hl: 'en'
     }
 }
+
+addTitleData(titles)
 
 const response = await google.search('That Winter, the Wind Blows', options);
 console.log(JSON.stringify(response.knowledge_panel, null, 2)); 

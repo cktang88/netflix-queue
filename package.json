@@ -1,0 +1,14 @@
+{
+  "name": "netflix-queue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "runner.js",
+  "scripts": {},
+  "author": "cktang88",
+  "license": "MIT",
+  "dependencies": {
+    "googlethis": "1.7.1",
+    "lowdb": "^5.1.0"
+  },
+  "type": "module"
+}

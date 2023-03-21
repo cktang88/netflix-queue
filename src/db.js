@@ -1,4 +1,4 @@
-// Remember to set type: module in package.json or use .mjs extension
+//@ts-check
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -20,7 +20,8 @@ async function initializeDB (){
     await db.read()
 
     // If db.json doesn't exist, db.data will be null
-    db.data ||= { titles: [] }
+    db.data ||= { titles: {} }
+    return db
 }
 
 const db = await initializeDB()

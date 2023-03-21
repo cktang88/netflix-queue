@@ -2,7 +2,7 @@
 
 import google from 'googlethis';
 
-import {addTitleData, getTitleData, getAllTitles, removeTitles} from './db.js';
+import {addTitleData, getTitleData, getAllTitles, saveDB} from './db.js';
 
 import { titles } from '../data/3-19-2023.js';
 
@@ -16,7 +16,16 @@ const options = {
     }
 }
 
-addTitleData(titles)
+const enrichedData = await Promise.all(titles.map(async title => {
+    console.log(title)
+    const response = await google.search(title, options);
+    return {
+        title: title,
+        data: response.knowledge_panel
+    }
+    // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
+}))
 
-const response = await google.search('That Winter, the Wind Blows', options);
-console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
+addTitleData(enrichedData, false)
+await saveDB()
+

@@ -2,11 +2,11 @@
 
 import google from 'googlethis';
 
-import { addTitleData, getSingleTitleData, getAllTitles, saveDB } from './db.js';
+import { addTitleData, getAllTitles, saveDB } from './db.js';
 
-import { titles } from '../data/3-19-2023.js'; // replace with your file name
-// import { titles } from '../data/override.js';
-const OVERRIDE = false
+// import { titles } from '../data/3-19-2023.js'; // replace with your file name
+import { titles } from '../data/override.js';
+const OVERRIDE = true
 
 const options = {
     page: 0,
@@ -28,8 +28,7 @@ if (!filteredTitles?.length) {
     console.log('No new titles found.')
 }
 
-const enrichedData = await Promise.all(filteredTitles.map(async title => {
-
+let enrichedData = await Promise.all(filteredTitles.map(async title => {
     try {
         await sleep(1000)
         let QUERY = title + ' show' // need "some prompt engineering" to disambiguate for some titles
@@ -53,6 +52,8 @@ const enrichedData = await Promise.all(filteredTitles.map(async title => {
         console.error(e)
     }
 }))
+
+enrichedData = enrichedData.filter(e => Boolean(e))
 console.log(enrichedData)
 addTitleData(enrichedData, OVERRIDE)
 await saveDB()

@@ -4,11 +4,11 @@ const randomElement = arr => {
     let i = Math.floor(Math.random() * arr.length)
     return arr[i];
 }
-for (let i = 0; i < Math.floor(Math.random() * 100) + 50; i++) {
+for (let i = 0; i < Math.floor(Math.random() * 100) + 100; i++) {
     let name = faker.name.fullName()
     let arr = randomElement(endings())
     let email = faker.internet.email(name.split(' ')[0], name.split(' ')[1], arr[0]).toLowerCase()
-    let institution = arr[1]
+    let institution = arr[1].trim()
     console.log(name, email)
 
     let role = randomElement(['Researcher', 'Professor', 'Student', 'Faculty', 'Senior Researcher', 'Postdoctoral Researcher', 'Research Scientist', 'Research Associate', 'Research Fellow', 'Research Assistant'])

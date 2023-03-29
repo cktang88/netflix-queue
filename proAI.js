@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
+import fetch from 'node-fetch'
 const randomElement = arr => {
     let i = Math.floor(Math.random() * arr.length)
     return arr[i];
 }
-for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
+for (let i = 0; i < Math.floor(Math.random() * 10) + 10; i++) {
     let name = faker.name.fullName()
     let arr = randomElement(endings())
     let email = faker.internet.email(name.split(' ')[0], name.split(' ')[1], arr[0]).toLowerCase()

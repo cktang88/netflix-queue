@@ -4,11 +4,13 @@
   "description": "",
   "main": "runner.js",
   "scripts": {
-    "start": "node ./src/runner.js"
+    "start": "node ./src/runner.js",
+    "proAI": "node ./proAI.js"
   },
   "author": "cktang88",
   "license": "MIT",
   "dependencies": {
+    "@faker-js/faker": "^7.6.0",
     "googlethis": "1.7.1",
     "lowdb": "^5.1.0"
   },

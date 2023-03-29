@@ -45,5 +45,7 @@ function parseToNum(str) {
 }
 // console.log(other)
 // console.log(movies)
-console.log(shows)
+shows.forEach(s => {
+    console.log(JSON.stringify(s))
+})
 // console.log(parseToNum('88% liked this TV show'))

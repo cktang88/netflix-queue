@@ -1,22 +1,11 @@
 //@ts-check
 
-import google from 'googlethis';
-
 import { addTitleData, getAllTitles, saveDB } from './db.js';
+import { searchMovies, searchTVShows } from './tmdb.js';
 
 // import { titles } from '../data/3-19-2023.js'; // replace with your file name
 import { titles } from '../data/test_data.js'; // small list just for development
 const OVERRIDE = true
-
-const options = {
-    page: 0,
-    safe: false, // Safe Search
-    parse_ads: false, // If set to true sponsored results will be parsed
-    additional_params: {
-        // add additional parameters here, see https://moz.com/blog/the-ultimate-guide-to-the-google-search-parameters and https://www.seoquake.com/blog/google-search-param/
-        hl: 'en'
-    }
-}
 
 // async sleep
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -29,33 +18,25 @@ if (!filteredTitles?.length) {
 }
 
 let enrichedData = await Promise.all(filteredTitles.map(async title => {
-    try {
-        await sleep(1000)
-        let QUERY = title + ' show' // need "some prompt engineering" to disambiguate for some titles
-        let response = await google.search(QUERY, options);
-        if (!response.knowledge_panel?.ratings?.length) {
-            // try 2
-            QUERY = title + ' movie'
-            response = await google.search(QUERY, options)
-        }
-        if (!response.knowledge_panel?.ratings?.length) {
-            // try 3
-            QUERY = title + ' series'
-            response = await google.search(QUERY, options)
-        }
-        console.log('got results for: ' + QUERY)
-        // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
-        return {
-            title: title,
-            data: response.knowledge_panel
-        }
-    } catch (e) {
-        console.error(e)
-    }
-}))
+    await sleep(100) // let's do 10/s
+    // use tmdb api to get data
+    const movie = await searchMovies(title)
+    const tv = await searchTVShows(title)
 
-enrichedData = enrichedData.filter(e => Boolean(e))
-console.log(enrichedData)
+
+    /*
+    HOW TO TIE BREAK if both movies and tv shows are found?
+    - see which ones have more ratings?
+    - or which title in first search result is closer match?
+    
+    TOOD: need to warn if low rating count...
+    */
+    return {
+        title,
+        movie,
+        tv,
+    }
+}));
 addTitleData(enrichedData, OVERRIDE)
 await saveDB()
 

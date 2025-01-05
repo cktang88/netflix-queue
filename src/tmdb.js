@@ -57,6 +57,9 @@ export async function searchTVShows(title, options = {
     return await fetchFromTMDB(`/tv?${new URLSearchParams(queryParams)}`);
 }
 
+
+
+
 /**
 movie result format is:
 {

@@ -1,6 +1,8 @@
 ## netflix-queue
 
-This is a tool to help you organize your Netflix watchlist. It uses TMDB's API to enrich the data, so that you can filter/sort by ratings, genres, release dates, etc.
+This is a tool to help you organize your Netflix watchlist. It lets you filter/sort by ratings, genres, release dates, etc.
+
+### Usage
 
 > Install deps with `npm install` first.
 
@@ -16,4 +18,6 @@ This is a tool to help you organize your Netflix watchlist. It uses TMDB's API t
 ### Dev
 
 - uses lowDB to persist data as JSON
-- uses `googlethis` to scrape Google search
+- uses TMDB's API to enrich data
+
+// TODO: get video and movie details from TMDB

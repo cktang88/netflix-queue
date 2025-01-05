@@ -1,5 +1,7 @@
 ## netflix-queue
 
+This is a tool to help you organize your Netflix watchlist. It uses TMDB's API to enrich the data, so that you can filter/sort by ratings, genres, release dates, etc.
+
 > Install deps with `npm install` first.
 
 1. use `./src/netflixPaste.js` to scrape titles from your Netflix `My List`.
@@ -10,10 +12,6 @@
 2. `npm start` to run populate the DB with enriched data from [TMDB's API](https://developer.themoviedb.org/docs/getting-started).
 
 3. (optional) `node ./src/analysis.js` to analyze the DB, sorting/filtering/etc.
-
-### Notes
-
-- You might get rate limited by Google, in which case just spin up a new Github Codespace and run it there.
 
 ### Dev
 

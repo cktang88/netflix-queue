@@ -5,7 +5,7 @@ import google from 'googlethis';
 import { addTitleData, getAllTitles, saveDB } from './db.js';
 
 // import { titles } from '../data/3-19-2023.js'; // replace with your file name
-import { titles } from '../data/override.js';
+import { titles } from '../data/test_data.js'; // small list just for development
 const OVERRIDE = true
 
 const options = {

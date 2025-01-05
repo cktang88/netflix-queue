@@ -1,6 +1,6 @@
 //@ts-check
 
-import { addTitleData, getAllTitles, saveDB } from './db.js';
+import { addTitleData, getAllData, saveDB } from './db.js';
 import { searchMovies, searchTVShows } from './tmdb.js';
 import stringSimilarity from 'string-similarity';
 
@@ -10,7 +10,7 @@ import { titles } from '../data/1-5-2024.js'; // replace with your file name
 
 const OVERRIDE = true
 const filteringOpts = {
-    minReleaseYear: 1990,
+    minReleaseYear: 1985,
     onlyReleased: true,
     hasVotes: true
 }
@@ -18,7 +18,7 @@ const filteringOpts = {
 // async sleep
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-const existingData = getAllTitles()
+const existingData = getAllData()
 let filteredTitles = OVERRIDE ? titles : titles.filter(title => !existingData[title])
 
 console.log('Enriching', filteredTitles.length, 'titles...')

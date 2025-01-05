@@ -1,4 +1,5 @@
-import { getAllTitles } from "./db.js";
+import { getAllData } from "./db.js";
+import { titles } from '../data/1-5-2024.js'; // replace with your file name
 import { TMDB_MOVIE_GENRES, TMDB_TV_GENRES } from "./constants.js";
 import { Parser } from '@json2csv/plainjs';
 
@@ -9,8 +10,9 @@ const movieGenreMap = Object.fromEntries(TMDB_MOVIE_GENRES.map(g => [g.id, g.nam
 const tvGenreMap = Object.fromEntries(TMDB_TV_GENRES.map(g => [g.id, g.name]));
 
 // Get all titles and convert to array format
-const allTitles = getAllTitles();
-const items = Object.entries(allTitles).map(([title, data]) => {
+const allTitles = getAllData();
+// remove all object keys that are not in titles
+const items = Object.entries(allTitles).filter(([title]) => titles.includes(title)).map(([title, data]) => {
     const itemData = { ...data.data, title };
 
     // Convert genre_ids to genre names
@@ -36,7 +38,8 @@ const opts = {
 };
 const parser = new Parser(opts);
 const moviesCSV = parser.parse(movies);
-const showsCSV = parser.parse(shows);
+const parser2 = new Parser(opts);
+const showsCSV = parser2.parse(shows);
 
 // Write to files using Node.js fs
 import { writeFileSync } from 'fs';

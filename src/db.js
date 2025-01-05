@@ -5,7 +5,7 @@ import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 import assert from 'node:assert'
 
-async function initializeDB (){
+async function initializeDB() {
     const FILENAME = './data/db.json'
 
     // File path
@@ -26,7 +26,7 @@ async function initializeDB (){
 
 const db = await initializeDB()
 
-function addTitleData(titleData, override = false){
+function addTitleData(titleData, override = false) {
     /*
     Enriches titles with data from the internet
     
@@ -37,8 +37,8 @@ function addTitleData(titleData, override = false){
         }
     ]
     */
-    titleData.forEach(({title, data}) => {
-        if(!override && db.data.titles[title]) {
+    titleData.forEach(({ title, data }) => {
+        if (!override && db.data.titles[title]) {
             console.log('Title already exists, skipping: ' + title)
             return
         }
@@ -50,29 +50,29 @@ function addTitleData(titleData, override = false){
     })
 }
 
-function getSingleTitleData(title){
+function getSingleTitleData(title) {
     assert(title)
     return db.data.titles[title]
 }
-function getAllTitles(){
+function getAllData() {
     return db.data.titles
 }
-function removeTitles(titles){
+function removeTitles(titles) {
     assert(titles)
     titles.forEach(title => {
-        if(db.data.titles[title]){
+        if (db.data.titles[title]) {
             delete db.data.titles[title]
         }
     })
 }
-async function saveDB(){
+async function saveDB() {
     await db.write()
 }
 
 export {
     addTitleData,
     getSingleTitleData,
-    getAllTitles,
+    getAllData,
     removeTitles,
     saveDB
 }

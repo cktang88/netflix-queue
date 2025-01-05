@@ -6,7 +6,14 @@ import stringSimilarity from 'string-similarity';
 
 import { titles } from '../data/1-5-2024.js'; // replace with your file name
 // import { titles } from '../data/test_data.js'; // small list just for development
+
+
 const OVERRIDE = true
+const filteringOpts = {
+    minReleaseYear: 1990,
+    onlyReleased: true,
+    hasVotes: true
+}
 
 // async sleep
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -29,6 +36,24 @@ for (const title of filteredTitles) {
     // use tmdb api to get data
     const movie = await searchMovies(title)
     const tv = await searchTVShows(title)
+
+    // filter results to only after 1990
+    if (filteringOpts.minReleaseYear) {
+        movie.results = movie.results.filter(result => result.release_date && new Date(result.release_date) >= new Date(`${filteringOpts.minReleaseYear}-01-01`))
+        tv.results = tv.results.filter(result => result.first_air_date && new Date(result.first_air_date) >= new Date(`${filteringOpts.minReleaseYear}-01-01`))
+    }
+
+    // filter results to only released
+    if (filteringOpts.onlyReleased) {
+        movie.results = movie.results.filter(result => result.release_date && new Date(result.release_date) <= new Date())
+        tv.results = tv.results.filter(result => result.first_air_date && new Date(result.first_air_date) <= new Date())
+    }
+
+    // filter results to only have votes
+    if (filteringOpts.hasVotes) {
+        movie.results = movie.results.filter(result => result.vote_count && result.vote_count > 0)
+        tv.results = tv.results.filter(result => result.vote_count && result.vote_count > 0)
+    }
 
     // Sort movie results by string similarity and popularity
     if (movie.results?.length) {

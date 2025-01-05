@@ -34,7 +34,7 @@ export async function fetchFromTMDB(endpoint, options = {}) {
 
 // Add more specific API methods as needed:
 export async function searchMovies(title, options = {
-    include_adult: true,
+    include_adult: false,
     page: 1,
     language: 'en-US',
 }) {
@@ -46,7 +46,7 @@ export async function searchMovies(title, options = {
 }
 
 export async function searchTVShows(title, options = {
-    include_adult: true,
+    include_adult: false,
     page: 1,
     language: 'en-US',
 }) {

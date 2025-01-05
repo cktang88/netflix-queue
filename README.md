@@ -20,4 +20,6 @@ This is a tool to help you organize your Netflix watchlist. It lets you filter/s
 - uses lowDB to persist data as JSON
 - uses TMDB's API to enrich data
 
-// TODO: get video and movie details from TMDB
+- NOTE: whenever editing, use https://www.textcompare.org/csv/ to compare output CSV files for diffs.
+
+// TODO: get video and movie details from TMDB?

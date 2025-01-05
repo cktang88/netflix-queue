@@ -5,7 +5,7 @@
   "main": "enrich.js",
   "scripts": {
     "start": "node ./src/enrich.js",
-    "proAI": "node ./proAI.js"
+    "convert": "node ./src/convertToCSV.js"
   },
   "author": "cktang88",
   "license": "MIT",

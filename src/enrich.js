@@ -39,10 +39,11 @@ let enrichedData = await Promise.all(filteredTitles.map(async title => {
             response = await google.search(QUERY, options)
         }
         if (!response.knowledge_panel?.ratings?.length) {
+            // try 3
             QUERY = title + ' series'
             response = await google.search(QUERY, options)
         }
-        console.log('got results for: ' + title)
+        console.log('got results for: ' + QUERY)
         // console.log(JSON.stringify(response.knowledge_panel, null, 2)); 
         return {
             title: title,

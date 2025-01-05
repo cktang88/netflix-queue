@@ -2,17 +2,18 @@
   "name": "netflix-queue",
   "version": "1.0.0",
   "description": "",
-  "main": "runner.js",
+  "main": "enrich.js",
   "scripts": {
-    "start": "node ./src/runner.js",
+    "start": "node ./src/enrich.js",
     "proAI": "node ./proAI.js"
   },
   "author": "cktang88",
   "license": "MIT",
   "dependencies": {
-    "googlethis": "1.7.1",
+    "googlethis": "^1.8.0",
     "lowdb": "^5.1.0",
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^3.3.1",
+    "tmdb-js-wrapper": "^1.0.4"
   },
   "type": "module"
 }

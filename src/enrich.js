@@ -73,21 +73,21 @@ for (const title of filteredTitles) {
         data.TYPE = 'tv';
     }
 
-    data.WARNING = {}
+    data.WARNING = []
     if (data.vote_count < 20) {
-        data.WARNING.vote_count = 'LOW_RATING_COUNT'
+        data.WARNING.push('LOW_RATING_COUNT')
     }
     if (data.popularity < 10) {
-        data.WARNING.popularity = 'LOW_POPULARITY'
+        data.WARNING.push('LOW_POPULARITY')
     }
     if (movie.results[0] && tv.results[0]) {
-        data.WARNING.both = 'BOTH_MOVIE_AND_TV'
+        data.WARNING.push('BOTH_MOVIE_AND_TV')
     }
     if (movie.results.length > 1) {
-        data.WARNING.multiple_movies = 'MULTIPLE_MOVIES'
+        data.WARNING.push('MULTIPLE_MOVIES')
     }
     if (tv.results.length > 1) {
-        data.WARNING.multiple_tv = 'MULTIPLE_TV'
+        data.WARNING.push('MULTIPLE_TV')
     }
 
 

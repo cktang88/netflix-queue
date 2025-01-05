@@ -13,7 +13,7 @@ This is a tool to help you organize your Netflix watchlist. It lets you filter/s
 
 2. `npm start` to run populate the DB with enriched data from [TMDB's API](https://developer.themoviedb.org/docs/getting-started).
 
-3. (optional) `node ./src/analysis.js` to analyze the DB, sorting/filtering/etc.
+3. (optional) `npm run convert` to convert the DB to CSV files, so you can view/sort them in Excel.
 
 ### Dev
 

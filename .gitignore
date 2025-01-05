@@ -4,3 +4,4 @@ data
 config.js
 
 .env
+.DS_Store

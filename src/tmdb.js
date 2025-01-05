@@ -1,9 +1,11 @@
+import 'dotenv/config';
+
 // NOTE: TMDB API is not really limited, but protected against abuse like 50/s.
 // NOTE: tmdb ratings very similar to IMDB usually
-const TMDB_BASE_URL = 'https://api.themoviedb.org/3/search'; // v3
+const TMDB_SEARCH_URL = 'https://api.themoviedb.org/3/search'; // v3
 
 export async function fetchFromTMDB(endpoint, options = {}) {
-    const url = `${TMDB_BASE_URL}${endpoint}`;
+    const url = `${TMDB_SEARCH_URL}${endpoint}`;
     const headers = {
         'Authorization': `Bearer ${process.env.TMDB_API_READ_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
@@ -19,7 +21,7 @@ export async function fetchFromTMDB(endpoint, options = {}) {
         });
 
         if (!response.ok) {
-            throw new Error(`TMDB API error: ${response.status} ${response.statusText}`);
+            throw new Error(`TMDB API error: ${response.status} ${response.statusText} for ${url}`);
         }
 
         return await response.json();
@@ -36,11 +38,11 @@ export async function searchMovies(title, options = {
     page: 1,
     language: 'en-US',
 }) {
-    const opts = {
+    const queryParams = {
         ...options,
         query: title,
     };
-    return await fetchFromTMDB(`/search/movie?query=${encodeURIComponent(opts)}`);
+    return await fetchFromTMDB(`/movie?${new URLSearchParams(queryParams)}`);
 }
 
 export async function searchTVShows(title, options = {
@@ -48,11 +50,11 @@ export async function searchTVShows(title, options = {
     page: 1,
     language: 'en-US',
 }) {
-    const opts = {
+    const queryParams = {
         ...options,
         query: title,
     };
-    return await fetchFromTMDB(`/search/tv?query=${encodeURIComponent(opts)}`);
+    return await fetchFromTMDB(`/tv?${new URLSearchParams(queryParams)}`);
 }
 
 /**

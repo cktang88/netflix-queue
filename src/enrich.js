@@ -23,6 +23,8 @@ let enrichedData = await Promise.all(filteredTitles.map(async title => {
     const movie = await searchMovies(title)
     const tv = await searchTVShows(title)
 
+    console.log(movie.results[0], tv.results[0])
+
 
     /*
     HOW TO TIE BREAK if both movies and tv shows are found?
@@ -33,8 +35,10 @@ let enrichedData = await Promise.all(filteredTitles.map(async title => {
     */
     return {
         title,
-        movie,
-        tv,
+        data: {
+            movie: movie.results[0],
+            tv: tv.results[0],
+        }
     }
 }));
 addTitleData(enrichedData, OVERRIDE)

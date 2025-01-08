@@ -4,7 +4,7 @@ import { addTitleData, getAllData, saveDB } from './db.js';
 import { searchMovies, searchTVShows } from './tmdb.js';
 import stringSimilarity from 'string-similarity';
 
-import { titles } from '../data/1-5-2024.js'; // replace with your file name
+import { titles } from '../data/1-8-2025.js'; // replace with your file name
 // import { titles } from '../data/test_data.js'; // small list just for development
 
 
